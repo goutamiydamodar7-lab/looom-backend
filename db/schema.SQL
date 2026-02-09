@@ -1,5 +1,5 @@
 -- Enable UUID generation
-CREATE EXTENSION IF NOT EXISTS pgcrypto; 
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 ----------------------------------
 -- USERS TABLE
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS users (
 ----------------------------------
 CREATE TABLE IF NOT EXISTS posts (
     post_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID NOT NULL REFERENCES users(user_id) ON DELETE CASCADE, 
+    user_id UUID NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
 
     -- NULL = top-level post
     -- NOT NULL = reply to another post
@@ -41,11 +41,22 @@ CREATE TABLE IF NOT EXISTS likes (
 );
 
 ----------------------------------
+-- FOLLOWS TABLE
+----------------------------------
+CREATE TABLE follows ( 
+    follower_id UUID REFERENCES users(user_id) ON DELETE CASCADE, 
+    following_id UUID REFERENCES users(user_id) ON DELETE CASCADE, 
+    PRIMARY KEY (follower_id, following_id), 
+    CHECK (follower_id <> following_id)
+);
+
+----------------------------------
 -- INDEXES
 ----------------------------------
 CREATE INDEX IF NOT EXISTS idx_posts_parent_id ON posts(parent_id);
 CREATE INDEX IF NOT EXISTS idx_posts_created_at ON posts(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_posts_user_id ON posts(user_id);
+CREATE INDEX IF NOT EXISTS idx_follows_follower_id ON follows(follower_id);
 
 ----------------------------------
 -- TRIGGER FUNCTIONS
