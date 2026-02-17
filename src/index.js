@@ -1,5 +1,6 @@
 import "dotenv/config";
 import express from "express";
+import cors from "cors";
 import { pool } from "./db.js";
 import { initDatabase } from "../db/init.js";
 import authRoutes from "./routes/auth.routes.js";
@@ -7,9 +8,22 @@ import postRoutes from "./routes/posts.routes.js";
 import likesFollowRoutes from "./routes/likes-follow.routes.js";
 import { errorHandler } from "./middleware/error.js";
 
+const allowedOrigins = ["http://localhost:5173"];
+
 const app = express();
 app.use(express.json());
-
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by cros"));
+      }
+    },
+  }),
+);
+ 
 app.get("/", (req, res) => {
   res.json({ message: "API running" });
 });
