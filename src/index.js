@@ -11,7 +11,6 @@ import { errorHandler } from "./middleware/error.js";
 const allowedOrigins = ["http://localhost:5173"];
 
 const app = express();
-app.use(express.json());
 app.use(
   cors({
     origin: function (origin, callback) {
@@ -23,6 +22,9 @@ app.use(
     },
   }),
 );
+
+app.use(express.json());
+
  
 app.get("/", (req, res) => {
   res.json({ message: "API running" });
@@ -61,3 +63,4 @@ async function startServer() {
 }
 
 startServer();
+
