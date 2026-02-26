@@ -5,6 +5,8 @@ import { pool } from "./db.js";
 import { initDatabase } from "../db/init.js";
 import authRoutes from "./routes/auth.routes.js";
 import postRoutes from "./routes/posts.routes.js";
+import searchRoutes from "./routes/search.routes.js";
+
 import likesFollowRoutes from "./routes/likes-follow.routes.js";
 import { errorHandler } from "./middleware/error.js";
 
@@ -25,7 +27,6 @@ app.use(
 
 app.use(express.json());
 
- 
 app.get("/", (req, res) => {
   res.json({ message: "API running" });
 });
@@ -38,6 +39,8 @@ app.use("/api/v1/posts", postRoutes);
 
 // Likes and follows routes
 app.use("/api/v1", likesFollowRoutes);
+
+app.use("/api/v1/search", searchRoutes);
 
 app.use(errorHandler); // must be last
 
@@ -63,4 +66,3 @@ async function startServer() {
 }
 
 startServer();
-
