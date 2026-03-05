@@ -12,14 +12,14 @@ export const searchAll = asyncHandler(async (req, res) => {
     FROM posts p
     JOIN users u ON u.user_id = p.user_id
     WHERE to_tsvector('simple', p.content) @@ to_tsquery('simple', $1) ORDER BY created_at DESC LIMIT 10`,
-    [searchTerm]
+    [searchTerm],
   );
   const usersPromise = pool.query(
     `SELECT  user_id, username 
     FROM users
     WHERE to_tsvector('simple', username) @@ to_tsquery('simple', $1) LIMIT 10`,
-    [searchTerm]
+    [searchTerm],
   );
-  const [posts,users] = await Promise.all([postsPromise, usersPromise]);
-  res.json({ posts: posts.rows, users: users.rows});
+  const [posts, users] = await Promise.all([postsPromise, usersPromise]);
+  res.json({ posts: posts.rows, users: users.rows });
 });
