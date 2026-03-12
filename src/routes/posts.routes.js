@@ -16,9 +16,9 @@ const router = express.Router();
 router.post("/", auth, requireFields(["content"]), createPost);
 
 router.get("/feed", optionalAuth, getFeed);
-router.get("/user/:userId", getUserPosts);
-router.get("/:postId/replies", getReplies);
-router.get("/:postId", getPostThread);
+router.get("/user/:userId", optionalAuth, getUserPosts);
+router.get("/:postId/replies", optionalAuth, getReplies);
+router.get("/:postId", optionalAuth, getPostThread);
 
 router.delete("/:postId", auth, deletePost);
 

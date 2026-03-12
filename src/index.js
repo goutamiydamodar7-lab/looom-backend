@@ -6,6 +6,7 @@ import { initDatabase } from "../db/init.js";
 import authRoutes from "./routes/auth.routes.js";
 import postRoutes from "./routes/posts.routes.js";
 import searchRoutes from "./routes/search.routes.js";
+import userRoutes from "./routes/user.routes.js";
 
 import likesFollowRoutes from "./routes/likes-follow.routes.js";
 import { errorHandler } from "./middleware/error.js";
@@ -41,6 +42,8 @@ app.use("/api/v1/posts", postRoutes);
 app.use("/api/v1", likesFollowRoutes);
 
 app.use("/api/v1/search", searchRoutes);
+
+app.use("/api/v1/users", userRoutes);
 
 app.use(errorHandler); // must be last
 

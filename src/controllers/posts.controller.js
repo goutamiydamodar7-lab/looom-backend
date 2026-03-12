@@ -14,7 +14,8 @@ const postSelect = (withLiked = false) => `
   p.likes_count,
   p.replies_count,
   p.created_at,
-  u.username
+  u.username,
+  u.user_id
   ${
     withLiked
       ? `,
@@ -42,11 +43,19 @@ export const createPost = asyncHandler(async (req, res) => {
     }
   }
 
-  const result = await pool.query(
+  const inserted = await pool.query(
     `INSERT INTO posts (user_id, content, parent_id)
      VALUES ($1,$2,$3)
-     RETURNING post_id, content, parent_id, likes_count, replies_count, created_at`,
+     RETURNING post_id`,
     [req.user.user_id, content, parent_id || null],
+  );
+
+  const result = await pool.query(
+    `SELECT ${postSelect().trim()}
+     FROM posts p
+     JOIN users u ON u.user_id = p.user_id
+     WHERE p.post_id = $1`,
+    [inserted.rows[0].post_id],
   );
 
   res.status(201).json(result.rows[0]);
@@ -144,7 +153,7 @@ export const getUserPosts = asyncHandler(async (req, res) => {
     SELECT ${postSelect(true).replace("$USER_ID", "$2")}
     FROM posts p
     JOIN users u ON u.user_id = p.user_id
-    WHERE p.user_id=$1 AND p.parent_id IS NULL
+    WHERE p.user_id=$1
     ORDER BY p.created_at DESC
     LIMIT $3 OFFSET $4
     `,
