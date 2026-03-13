@@ -7,6 +7,7 @@ import authRoutes from "./routes/auth.routes.js";
 import postRoutes from "./routes/posts.routes.js";
 import searchRoutes from "./routes/search.routes.js";
 import userRoutes from "./routes/user.routes.js";
+import activityRoutes from "./routes/activity.routes.js";
 
 import likesFollowRoutes from "./routes/likes-follow.routes.js";
 import { errorHandler } from "./middleware/error.js";
@@ -44,6 +45,8 @@ app.use("/api/v1", likesFollowRoutes);
 app.use("/api/v1/search", searchRoutes);
 
 app.use("/api/v1/users", userRoutes);
+
+app.use("/api/v1/activity", activityRoutes);
 
 app.use(errorHandler); // must be last
 
