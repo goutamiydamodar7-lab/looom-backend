@@ -1,12 +1,16 @@
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 import { pool } from "../src/db.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export async function initDatabase() {
   try {
-    const schemaPath = path.join(process.cwd(), "db", "schema.sql");
+    const schemaPath = path.join(__dirname, "../db/schema.sql");
 
-    console.log("Schema Path:", schemaPath); // debug
+    console.log("Path:", schemaPath);
 
     const sql = fs.readFileSync(schemaPath, "utf-8");
 
