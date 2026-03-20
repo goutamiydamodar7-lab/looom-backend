@@ -8,16 +8,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/goutamiydamodar7-lab/looom-backend.git"
+    "url": "git+https://github.com/iamsahana10/looom-backend.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "bugs": {
-    "url": "https://github.com/goutamiydamodar7-lab/looom-backend/issues"
+    "url": "https://github.com/iamsahana10/looom-backend/issues"
   },
-  "homepage": "https://github.com/goutamiydamodar7-lab/looom-backend#readme",
+  "homepage": "https://github.com/iamsahana10/looom-backend#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  },
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
@@ -25,8 +28,5 @@
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "pg": "^8.18.0"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.11"
   }
 }
